@@ -1,0 +1,82 @@
+version: '3'
+services:
+  db:
+    platform: linux/x86_64
+    image: mysql:8.0.19
+    volumes:
+      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: root
+    restart: always
+    ports:
+      - "3306:3306"
+
+  api:
+    build: 
+      context: ./rails
+    volumes:
+      - ./rails/api:/api
+      - api_tmp:/api/tmp
+      - /app/node_modules
+      - public-data:/api/public
+      - log-data:/api/log
+    environment:
+      - RUBY_YJIT_ENABLE=1
+      - ENVIRONMENT=loacal
+      - AWS_ACCESS_KEY_ID=dummy
+      - AWS_SECRET_ACCESS_KEY=dummy
+    # nginxなし用
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - localstack
+      # - nginx
+
+  # nginx:
+  #   build:
+  #     context: ./nginx 
+  #     args:
+  #       - ENVIRONMENT=local
+  #   volumes:
+  #     - api_tmp:/api/tmp
+  #   networks:
+  #     default:
+  #       aliases: 
+  #         - local-one-test.s3-ap-northeast-1.localstack
+
+  localstack:
+    image: localstack/localstack
+    container_name: localstack
+    ports:
+      - 4566:4566
+    environment:
+      - DEFAULT_REGION=ap-northeast-1
+      - SERVICES=s3
+      - DATA_DIR=${DATA_DIR- }
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - ./localstack:/docker-entrypoint-initaws.d
+  
+  swagger-ui:
+    build: ./swagger-ui
+    volumes:
+      - ./swagger-ui:/swagger-ui
+    environment:
+      - SWAGGER_JSON=/swagger-ui/v2/myapp-api.yaml
+      - BASE_URL=/swagger-ui
+    ports:
+      - "10081:8080"
+
+volumes:
+  api_tmp:
+  public-data:
+  log-data:
+  mysql_data:
+    driver: local
+
+networks:
+  default:
+    name: myapp-api
