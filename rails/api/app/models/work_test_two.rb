@@ -1,0 +1,2 @@
+class WorkTestTwo < ApplicationRecord
+end
