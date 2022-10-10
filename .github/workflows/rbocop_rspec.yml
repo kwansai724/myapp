@@ -17,9 +17,9 @@ jobs:
           docker-compose build
           docker-compose up -d
 
-      # # Rubocop実行(通らないため一旦実施しない/20221008)
-      # - name: Run rubocop
-      #   run: docker-compose run --rm api bundle exec rubocop
+      # Rubocop実行
+      - name: Run rubocop
+        run: docker-compose run --rm api bundle exec rubocop
 
       # # Rspec実行
       # - name: Run rspec
