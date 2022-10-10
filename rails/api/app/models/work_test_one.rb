@@ -1,0 +1,2 @@
+class WorkTestOne < ApplicationRecord
+end
