@@ -8,6 +8,7 @@ AllCops:
    - "bin/*"
    - "node_modules/**/*"
    - "Gemfile"
+   - "spec/spec_helper.rb"
 
 
 # 1行あたりの文字数をチェックする
@@ -34,15 +35,15 @@ Metrics/AbcSize:
 
 # メソッドの中身が複雑になっていないか、Rubocopが計算して基準値を超えると警告を出す
 Metrics/PerceivedComplexity:
- Max: 8
+ Max: 12
 
 # 循環的複雑度が高すぎないかをチェック（ifやforなどを1メソッド内で使いすぎている）
 Metrics/CyclomaticComplexity:
- Max: 10
+ Max: 12
 
 # メソッドの行数が多すぎないかをチェック
 Metrics/MethodLength:
- Max: 30
+ Max: 40
 
 # ネストが深すぎないかをチェック（if文のネストもチェック）
 Metrics/BlockNesting:
@@ -55,6 +56,10 @@ Metrics/ClassLength:
 # 空メソッドの場合に、1行のスタイルにしない　NG例：def style1; end
 Style/EmptyMethod:
  EnforcedStyle: expanded
+
+# ハッシュのvalueを省略しない形を許可　例：good {foo: foo, bar: bar}/ good {foo:, bar:}
+Style/HashSyntax:
+ EnforcedShorthandSyntax: either 
 
 # クラス内にクラスが定義されていないかチェック（無効）
 Style/ClassAndModuleChildren:

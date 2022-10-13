@@ -13,6 +13,7 @@ module Api
     config.generators do |g|
       g.test_framework false
     end
+    config.autoload_paths += Dir["#{config.root}/lib"]
 
     # Configuration for the application, engines, and railties goes here.
     #
