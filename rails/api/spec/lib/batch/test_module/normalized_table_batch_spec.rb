@@ -29,8 +29,10 @@ RSpec.describe Test, type: :model do
 
     context 'workテーブルにレコードがない場合' do
       example '例外が発生する' do
-        expect { Batch::TestModule::NormalizedTestOnesImportBatch.transport }.to raise_error(ActiveRecord::RecordNotFound, 'work_test_onesにレコードがありません。')
-        expect { Batch::TestModule::NormalizedTestTwosImportBatch.transport }.to raise_error(ActiveRecord::RecordNotFound, 'work_test_twosにレコードがありません。')
+        expect { Batch::TestModule::NormalizedTestOnesImportBatch.transport }
+          .to raise_error(ActiveRecord::RecordNotFound, 'work_test_onesにレコードがありません。')
+        expect { Batch::TestModule::NormalizedTestTwosImportBatch.transport }
+          .to raise_error(ActiveRecord::RecordNotFound, 'work_test_twosにレコードがありません。')
       end
     end
   end
