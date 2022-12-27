@@ -1,0 +1,153 @@
+openapi: 3.0.2
+info:
+  version: 2.2.0
+  title: Myapp API
+  description: |
+    MyappのAPI定義書
+servers:
+  - url: 'http://localhost:10081'
+paths:
+  /tests:
+    post:
+      summary: 'テストAPI'
+      description: |
+        テストテーブルの情報を取得する。
+      responses:
+        '200':
+          description: |
+            OK \
+            \
+            レスポンス項目説明
+              - column1: カラム１
+              - column2: カラム２
+              - column3: カラム３
+          content:
+            application/json:
+              schema:
+                properties:
+                  total_count:
+                    type: 'integer'
+                    format: 'int64'
+                    example: 1
+                  offset:
+                    type: 'integer'
+                    format: 'int64'
+                    example: 0
+                  limit:
+                    type: 'integer'
+                    format: 'int64'
+                    example: 1000
+                  tests:
+                    type: 'array'
+                    items:
+                      $ref: '#/components/schemas/TestModel'
+        '400':
+          description: 'NG - パラメータが不正'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: 'NG - 不正なAPI認証キーでのリクエスト'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: 'NG - Testデータ取得失敗。URLが不正'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: 'NG - APIサーバーの内部的エラー'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '503':
+          description: 'NG - メンテナンス中'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      requestBody:
+        description: |
+          ### リクエストパラメータ説明
+          - #### 取得位置 - offset
+          - #### 取得件数 - limit
+          - #### ユーザID - user_codes
+            完全一致検索 \
+            配列で複数OR検索
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/CommonModel'
+                - $ref: '#/components/schemas/TestSearchModel'
+      parameters:
+        - $ref: '#/components/parameters/auth_key'
+        - $ref: '#/components/parameters/content_type'
+components:
+  parameters:
+    auth_key:
+      name: 'X-AuthKey'
+      in: 'header'
+      description: 'API認証キー'
+      required: true
+      schema:
+        type: 'string'
+    content_type:
+      name: 'Content-Type'
+      in: 'header'
+      description: 'application/json'
+      required: true
+      schema:
+        type: 'string'
+  schemas:
+    ErrorModel:
+      properties:
+        error:
+          type: 'string'
+          example: 'エラーの種類'
+        message:
+          type: 'string'
+          example: 'エラーメッセージ'
+    CommonModel:
+      properties:
+        offset:
+          type: 'integer'
+          title: '取得位置'
+          example: '0'
+        limit:
+          type: 'integer'
+          title: '取得件数'
+          example: '1000'
+    TestModel:
+      properties:
+        column1:
+          type: 'string'
+          title: 'カラム１'
+          example: '000001'
+        column2:
+          type: 'string'
+          title: 'カラム２'
+          example: 'aaaaa'
+        column3:
+          type: 'string'
+          title: 'カラム３'
+          example: 'AAAAA'
+    TestSearchModel:
+      properties:
+        column1:
+          type: array
+          title: 'カラム１(複数可)'
+          example: ['000001','000003']
+        column2:
+          type: array
+          title: 'カラム２(複数可)'
+          example: ['aaaaa','ccccc']
+        column3:
+          type: array
+          title: 'カラム３(複数可)'
+          example: ['AAAAA','DDDDD']
