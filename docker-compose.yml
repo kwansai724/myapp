@@ -10,7 +10,6 @@ services:
     environment:
       MYSQL_DATABASE: root
       MYSQL_ROOT_PASSWORD: password
-    command: mysqld --innodb_use_native_aio=0
     ports:
       - "3306:3306"
 
