@@ -16,7 +16,7 @@ RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 EXPOSE 3000
 
-RUN mkdir -p tmp/sockets
+RUN mkdir -p /tmp/sockets /tmp/pids
 
-# # Start the main process.
-# CMD ["puma", "-C", "config/puma.rb"]
+# Start the main process.
+CMD ["puma", "-C", "config/puma.rb"]

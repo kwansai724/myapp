@@ -7,6 +7,7 @@ services:
     volumes:
       - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
       - mysql_data:/var/lib/mysql
+    command: mysqld --innodb_use_native_aio=0
     ports:
       - "3306:3306"
 
@@ -23,7 +24,6 @@ services:
     #   - ENVIRONMENT=loacal
     #   - AWS_ACCESS_KEY_ID=dummy
     #   - AWS_SECRET_ACCESS_KEY=dummy
-    command: sh launch.sh
     depends_on:
       - db
       # - localstack
@@ -73,7 +73,7 @@ volumes:
   log-data:
     driver: local
   mysql_data:
-#     driver: local
+    driver: local
 
 # networks:
 #   default:
