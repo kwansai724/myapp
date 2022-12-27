@@ -23,6 +23,8 @@ jobs:
 
       # # Rspec実行
       - name: Run rspec
+        env:
+          RAILS_ENV: test
         run: |
           docker-compose run --rm api bundle exec rails db:create
           docker-compose run --rm api bundle exec rails db:migrate:reset
