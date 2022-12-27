@@ -1,7 +1,7 @@
 module Batch
   module TestModule
     class NormalizedTestTwosImportBatch < NormalizedTableBatch
-      RESOURCE_NAMES = %w[v2/test_twos].freeze
+      RESOURCE_NAMES = %w[test_twos].freeze
 
       @constructor = lambda do |work|
         Test.new(
