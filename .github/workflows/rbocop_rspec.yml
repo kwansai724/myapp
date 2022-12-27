@@ -16,6 +16,8 @@ jobs:
           docker-compose down
           docker-compose build
           docker-compose up -d
+          docker-compose run --rm api bundle exec rails db:create
+          docker-compose run --rm api bundle exec rails db:migrate:reset
 
       # Rubocop実行
       - name: Run rubocop
@@ -24,5 +26,4 @@ jobs:
       # # Rspec実行
       - name: Run rspec
         run: |
-          docker-compose run --rm api bundle exec rails db:migrate:reset
           docker-compose run --rm api bundle exec rspec
