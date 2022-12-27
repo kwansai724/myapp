@@ -12,6 +12,14 @@ dcu
 dcd
 ```
 
+## 初回実行コマンド
+```bash
+dcu
+dce api rails db:create
+dce api rails db:migrate
+dce api rails db:seed
+```
+
 ## swagger-ui
 swagger-iu/myapp_api.yamlを開いて以下を実行
 ```bash

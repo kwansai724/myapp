@@ -7,6 +7,8 @@ services:
     volumes:
       - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
       - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
     command: mysqld --innodb_use_native_aio=0
     ports:
       - "3306:3306"
@@ -19,7 +21,9 @@ services:
       - api_tmp:/api/tmp
       - public-data:/api/public
       - log-data:/var/log/nginx
-    # environment:
+    command: sh launch.sh
+    environment:
+      - API_DATABASE_PASSWORD=password
     #   - RUBY_YJIT_ENABLE=1
     #   - ENVIRONMENT=loacal
     #   - AWS_ACCESS_KEY_ID=dummy

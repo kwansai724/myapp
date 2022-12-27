@@ -1,6 +1,7 @@
 require "csv"
 
 IMPORT_CSVS = %w[
+  tests
   work_test_one
   work_test_two
 ]
